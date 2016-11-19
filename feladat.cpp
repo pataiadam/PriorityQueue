@@ -33,16 +33,41 @@ public:
             /** prefix ++ */                                   
             iterator& operator++() { ++_p; return *this; }                         
             /** postfix ++ */
-            iterator operator++(int) { iterator temp(*this); ++_p; return temp; }                      
+            iterator operator++(int) { iterator temp(*this); ++_p; return temp; }
+            /** prefix -- */
+            iterator& operator--() { --_p; return *this; }                         
+            /** postfix -- */
+            iterator operator--(int) { iterator temp(*this); --_p; return temp; }                     
         private:
             /** private konstruktor */
             iterator(T* p) : _p(p) {}  
-            /** az iterator altal mutatott elem */
+            /** az aktualisan mutatott elem */
             T* _p;
 		friend class my_priqueue<T,Comparator>; 
     };
     /** Belsõ osztály, amely a hátrafeléhaladó iterátort valósítja meg. */
-    class reverse_iterator;
+    class reverse_iterator      
+    {
+        public:
+            /** default konstruktor */
+            reverse_iterator() : _p(0) {}
+			/** * operátor overloading/dereferencia */                             
+            T& operator*() { return *_p; }
+            /** prefix ++ */                                   
+            reverse_iterator& operator++() { --_p; return *this; }                         
+            /** postfix ++ */
+            reverse_iterator operator++(int) { reverse_iterator temp(*this); --_p; return temp; }
+            /** prefix -- */
+            reverse_iterator& operator--() { ++_p; return *this; }                         
+            /** postfix -- */
+            reverse_iterator operator--(int) { reverse_iterator temp(*this); ++_p; return temp; }                     
+        private:
+            /** private konstruktor */
+            reverse_iterator(T* p) : _p(p) {}  
+            /** az aktualisan mutatott elem */
+            T* _p;
+		friend class my_priqueue<T,Comparator>; 
+    };
     /** A sablonpéldány rendelkezik default konstruktorral. */
     my_priqueue() : _queue(new T[0]), _size(0), _capacity(0) {
 
@@ -80,11 +105,11 @@ public:
     /** Elõrehaladó iterátor a prisor legelsõ elemére. */
     iterator begin() { return iterator(_queue); }
     /** Elõrehaladó iterátor a prisor utolsó utáni elemére. */
-    iterator end();
+    iterator end() { return iterator(_queue + _size); }
     /** Hátrafelé haladó iterátor a prisor utolsó elemére. */
-    reverse_iterator rbegin();
+    reverse_iterator rbegin() { return reverse_iterator(_queue + _size - 1); }
     /** Hátrafelé haladó iterátor a prisor elsõ elõtti elemére. */
-    reverse_iterator rend();
+    reverse_iterator rend() { return reverse_iterator(_queue - 1 ); }
 	private: 
 		/** elemek tárolása a prioritási sorban */
 		T *_queue;
@@ -105,15 +130,21 @@ int main() {
     q1.push(77);
     q1.push(27);
     q1.push(7);
-    my_priqueue<int>::iterator it;
-	it = q1.begin();
+    my_priqueue<int>::reverse_iterator it;
+	it = q1.rbegin();
     cout << *(it) << " " << endl;
-    it++;
+    it--;
     cout << *(it) << " " << endl;
     ++it;
     cout << *(it) << " " << endl;
     it++;
     cout << *(it) << " " << endl;
+    --it;
+    cout << *(it) << " " << endl;
+    it--;
+    cout << *(it) << " " << endl;
+    
+
     /*
     my_priqueue<int, comparator> q2;
     q2.push(31);
