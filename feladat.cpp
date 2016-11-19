@@ -90,12 +90,23 @@ public:
         }
         _queue[_size] = item;
         _size++;
-        //sort();
+        
+        //sort
+        for (int j = _size-2; 0<=j; j--)
+        {
+            if (_comparator(_queue[j+1],_queue[j]))
+            {
+                T temp;
+                temp = _queue[j];
+                _queue[j] = _queue[j+1];
+                _queue[j+1] = temp;
+            }
+        }
     }
     /** A prioritási sor legelsõ elemének eltávolítása és visszaadása. */
     T pop();
     /** A prioritási sorban levõ elemek száma. */
-    int size();
+    int size() { return _size; };
     /** A prioritási sor elemeinek indexelése (0-tól size()-1 -ig). */
     const T& operator[](int index) const;
     /** Elõrehaladó kétirányú iterátor típus a prisor elemeinek bejárására. */
@@ -127,7 +138,9 @@ public:
 
 int main() {
     my_priqueue<int, comparator> q1;
-    q1.push(77);
+    q1.push(76);
+    q1.push(1);
+    q1.push(1);
     q1.push(27);
     q1.push(7);
     my_priqueue<int>::reverse_iterator it;
@@ -143,12 +156,8 @@ int main() {
     cout << *(it) << " " << endl;
     it--;
     cout << *(it) << " " << endl;
-    
-
-    /*
     my_priqueue<int, comparator> q2;
     q2.push(31);
-    q2.push(1977);*/
-
+    q2.push(1977);
     return 0;
 }
