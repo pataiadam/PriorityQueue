@@ -1,6 +1,5 @@
-
-#include<iostream>
-using namespace std;
+//#include<iostream>
+//using namespace std;
 
 struct comparator {
     /** 
@@ -142,29 +141,20 @@ public:
 
 // === MEGVALÓSÍTÁS VÉGE ===
 
-
-int main() {
+//Testing
+/*1int main() {
     my_priqueue<int, comparator> q1;
     q1.push(76);
     q1.push(1);
-    q1.push(1);
+    q1.push(2);
     q1.push(27);
     q1.push(7);
     my_priqueue<int>::reverse_iterator it;
-	it = q1.rbegin();
-    cout << *(it) << " " << endl;
-    it--;
-    cout << *(it) << " " << endl;
-    ++it;
-    cout << *(it) << " " << endl;
-    it++;
-    cout << *(it) << " " << endl;
-    --it;
-    cout << *(it) << " " << endl;
-    it--;
-    cout << q1.pop() << " " << endl;
-    my_priqueue<int, comparator> q2;
-    q2.push(31);
-    q2.push(1977);
+    it = q1.rbegin();    
+    while(*it != *q1.rend()){
+        cout << *it << " " << endl;
+        ++it;
+    }
+        
     return 0;
-}
+}*/
