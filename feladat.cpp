@@ -1,3 +1,17 @@
+
+#include<iostream>
+using namespace std;
+
+struct comparator {
+    /** 
+     * Függvényhívás operátor felüldefiniálása, amely rendezést valósít meg. 
+     * Visszatérési értéke igaz, ha a < b valamilyen rendezési reláció szerint.
+     */
+    bool operator()(const int &a, const int &b){
+        return a<b;
+    };
+};
+
 /**
  * Az osztálysablon neve my_priqueue.
  * A sablon paraméterezése:
@@ -5,11 +19,24 @@
  *   - Comparator: típus, aminek példányai rendezést megvalósító 
  *                 függvényobjektumok
  */
-template<class T, class Comparator>
+template<class T, class Comparator = comparator>
 class my_priqueue {
 public:
     /** Belsõ osztály, amely az elõrehaladó iterátort valósítja meg. */
-    class iterator;
+    class iterator      
+    {
+        public:
+            /** default konstruktor */
+            iterator() : _p(0) {}
+			/** * operátor overloading/dereferencia */                             
+            T& operator*() { return *_p; }                     
+        private:
+            /** private konstruktor */
+            iterator(T* p) : _p(p) {}  
+            /** az iterator altal mutatott elem */
+            T* _p;
+		friend class my_priqueue<T,Comparator>; 
+    };
     /** Belsõ osztály, amely a hátrafeléhaladó iterátort valósítja meg. */
     class reverse_iterator;
     /** A sablonpéldány rendelkezik default konstruktorral. */
@@ -33,7 +60,7 @@ public:
     /** Hátrafelé haladó kétirányú iterátor típus a prisor elemeinek bejárására. */
     class reverse_iterator;
     /** Elõrehaladó iterátor a prisor legelsõ elemére. */
-    iterator begin();
+    iterator begin() { return iterator(_queue); }
     /** Elõrehaladó iterátor a prisor utolsó utáni elemére. */
     iterator end();
     /** Hátrafelé haladó iterátor a prisor utolsó elemére. */
@@ -54,18 +81,12 @@ public:
 
 // === MEGVALÓSÍTÁS VÉGE ===
 
-struct comparator {
-    /** 
-     * Függvényhívás operátor felüldefiniálása, amely rendezést valósít meg. 
-     * Visszatérési értéke igaz, ha a < b valamilyen rendezési reláció szerint.
-     */
-    bool operator()(const int &a, const int &b){
-        return a<b;
-    };
-};
 
 int main() {
     my_priqueue<int, comparator> q1;
+	my_priqueue<int>::iterator it;
+	it = q1.begin();
+    cout << *it << " " << endl;
     /*q1.push(77);
     q1.push(27);
     q1.push(7);
