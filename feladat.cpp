@@ -47,6 +47,8 @@ public:
             bool operator!=(const iterator &it) { return _p != it._p; }
             /** egyenlő operator */
             bool operator==(const iterator &it) { return _p != it._p; }
+            /** -> operátor */
+            T * operator->() { return _p; }   
         private:
             /** private konstruktor */
             iterator(T* p) : _p(p) {}  
@@ -75,6 +77,8 @@ public:
             bool operator!=(const reverse_iterator &it) { return _p != it._p; }     
             /** egyenlő operator */
             bool operator==(const reverse_iterator &it) { return _p != it._p; }  
+            /** -> operátor */
+            T * operator->() { return _p; }
         private:
             /** private konstruktor */
             reverse_iterator(T* p) : _p(p) {}  
