@@ -1,12 +1,17 @@
-//#include<iostream>
-//using namespace std;
-
+/*#include <iostream>
+#include <string>
+using namespace std;
+*/
+/**
+ * Comparator: típus, aminek példányai rendezést megvalósító függvényobjektumok
+ */
+template<class T>
 struct comparator {
     /** 
      * Függvényhívás operátor felüldefiniálása, amely rendezést valósít meg. 
      * Visszatérési értéke igaz, ha a < b valamilyen rendezési reláció szerint.
      */
-    bool operator()(const int &a, const int &b){
+    bool operator()(const T &a, const T &b){
         return a<b;
     };
 };
@@ -18,7 +23,7 @@ struct comparator {
  *   - Comparator: típus, aminek példányai rendezést megvalósító 
  *                 függvényobjektumok
  */
-template<class T, class Comparator = comparator>
+template<class T=int, class Comparator = comparator<int>>
 class my_priqueue {
 public:
     /** Belsõ osztály, amely az elõrehaladó iterátort valósítja meg. */
@@ -42,6 +47,7 @@ public:
             iterator(T* p) : _p(p) {}  
             /** az aktualisan mutatott elem */
             T* _p;
+        /** friend definició */
 		friend class my_priqueue<T,Comparator>; 
     };
     /** Belsõ osztály, amely a hátrafeléhaladó iterátort valósítja meg. */
@@ -65,6 +71,7 @@ public:
             reverse_iterator(T* p) : _p(p) {}  
             /** az aktualisan mutatott elem */
             T* _p;
+        /** friend definició */
 		friend class my_priqueue<T,Comparator>; 
     };
     /** A sablonpéldány rendelkezik default konstruktorral. */
@@ -114,7 +121,7 @@ public:
     /** A prioritási sorban levõ elemek száma. */
     int size() { return _size; };
     /** A prioritási sor elemeinek indexelése (0-tól size()-1 -ig). */
-    const T& operator[](int index) const;
+    const T& operator[](int index) const { return _queue[index]; };
     /** Elõrehaladó kétirányú iterátor típus a prisor elemeinek bejárására. */
     class iterator;
     /** Hátrafelé haladó kétirányú iterátor típus a prisor elemeinek bejárására. */
@@ -142,19 +149,32 @@ public:
 // === MEGVALÓSÍTÁS VÉGE ===
 
 //Testing
-/*1int main() {
-    my_priqueue<int, comparator> q1;
-    q1.push(76);
-    q1.push(1);
-    q1.push(2);
-    q1.push(27);
-    q1.push(7);
-    my_priqueue<int>::reverse_iterator it;
-    it = q1.rbegin();    
-    while(*it != *q1.rend()){
-        cout << *it << " " << endl;
-        ++it;
+/*int main() {
+    my_priqueue<int> q0;
+    q0.push(76);
+    q0.push(1);
+    q0.push(2);
+    q0.push(27);
+    q0.push(7);
+    my_priqueue<int>::reverse_iterator it0;
+    it0 = q0.rbegin();    
+    while(*it0 != *q0.rend()){
+        cout << *it0 << " " << endl;
+        ++it0;
     }
-        
+     
+    my_priqueue<string, comparator<string>> q1;
+    q1.push("bbb");
+    q1.push("dddd");
+    q1.push("dd");
+    q1.push("aa");
+    q1.push("ccc");
+    my_priqueue<string, comparator<string>>::reverse_iterator it1;
+    it1 = q1.rend();
+      
+     while(*(--it1) != *q1.rbegin()){
+        cout << *it1 << " " << endl;
+    }
+   
     return 0;
 }*/
