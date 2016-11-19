@@ -29,7 +29,11 @@ public:
             /** default konstruktor */
             iterator() : _p(0) {}
 			/** * operátor overloading/dereferencia */                             
-            T& operator*() { return *_p; }                     
+            T& operator*() { return *_p; }
+            /** prefix ++ */                                   
+            iterator& operator++() { ++_p; return *this; }                         
+            /** postfix ++ */
+            iterator operator++(int) { iterator temp(*this); ++_p; return temp; }                      
         private:
             /** private konstruktor */
             iterator(T* p) : _p(p) {}  
@@ -48,7 +52,21 @@ public:
 		delete[] _queue; 
 	}
     /** Elem beszúrása a prioritási sorba a rendezésnek megfelelõ helyre. */
-    void push(const T &item);
+    void push(const T &item) {     
+        if ( _capacity == _size) {
+            int tmpcap = _capacity * 2 + 1;                        
+            T *tmpqueue = new T[tmpcap];             
+            for (int i = 0; i < _capacity; i++) {
+                tmpqueue[i] = _queue[i];
+            }
+            delete[] _queue;
+            _queue = tmpqueue;
+            _capacity = tmpcap;
+        }
+        _queue[_size] = item;
+        _size++;
+        //sort();
+    }
     /** A prioritási sor legelsõ elemének eltávolítása és visszaadása. */
     T pop();
     /** A prioritási sorban levõ elemek száma. */
@@ -72,7 +90,7 @@ public:
 		T *_queue;
 		/** a prioritási sorban lévő elemek száma */ 
 		int _size;
-		/** _data adattároló maximális kapacitása */
+		/** _queue adattároló maximális kapacitása */
 		int _capacity;
 		/** Sablonpéldány a rendezésre */
 		Comparator _comparator;
@@ -84,13 +102,19 @@ public:
 
 int main() {
     my_priqueue<int, comparator> q1;
-	my_priqueue<int>::iterator it;
-	it = q1.begin();
-    cout << *it << " " << endl;
-    /*q1.push(77);
+    q1.push(77);
     q1.push(27);
     q1.push(7);
-    
+    my_priqueue<int>::iterator it;
+	it = q1.begin();
+    cout << *(it) << " " << endl;
+    it++;
+    cout << *(it) << " " << endl;
+    ++it;
+    cout << *(it) << " " << endl;
+    it++;
+    cout << *(it) << " " << endl;
+    /*
     my_priqueue<int, comparator> q2;
     q2.push(31);
     q2.push(1977);*/
