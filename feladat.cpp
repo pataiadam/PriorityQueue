@@ -104,7 +104,14 @@ public:
         }
     }
     /** A prioritási sor legelsõ elemének eltávolítása és visszaadása. */
-    T pop();
+    T pop() {
+        T ret = _queue[0];
+        for (int i = 1; i<_size; i++){
+            _queue[i-1] = _queue[i];
+        }
+        _size--;
+        return ret;
+    };
     /** A prioritási sorban levõ elemek száma. */
     int size() { return _size; };
     /** A prioritási sor elemeinek indexelése (0-tól size()-1 -ig). */
@@ -155,7 +162,7 @@ int main() {
     --it;
     cout << *(it) << " " << endl;
     it--;
-    cout << *(it) << " " << endl;
+    cout << q1.pop() << " " << endl;
     my_priqueue<int, comparator> q2;
     q2.push(31);
     q2.push(1977);
