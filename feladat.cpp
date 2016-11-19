@@ -1,7 +1,39 @@
 /*#include <iostream>
 #include <string>
 using namespace std;
-*/
+
+//Testing
+int main() {
+    my_priqueue<int> q0;
+    q0.push(76);
+
+    q0.push(1);
+    q0.push(2);
+    q0.push(27);
+    q0.push(7);
+    my_priqueue<int>::reverse_iterator it0;
+    it0 = q0.rbegin();    
+    while(*it0 != *q0.rend()){
+        cout << *it0 << " " << endl;
+        ++it0;
+    }
+     
+    my_priqueue<string, comparator<string>> q1;
+    q1.push("bbb");
+    q1.push("dddd");
+    q1.push("dd");
+    q1.push("aa");
+    q1.push("ccc");
+    my_priqueue<string, comparator<string>>::reverse_iterator it1;
+    it1 = q1.rend();
+      
+     while((--it1) != q1.rbegin()){
+        cout << *it1 << " " << endl;
+    }
+   
+    return 0;
+}*/
+
 /**
  * Comparator: típus, aminek példányai rendezést megvalósító függvényobjektumok
  */
@@ -42,6 +74,8 @@ public:
             iterator& operator--() { --_p; return *this; }                         
             /** postfix -- */
             iterator operator--(int) { iterator temp(*this); --_p; return temp; }                     
+            /** nem egyenlő operator */
+            bool operator!=(const iterator &it) { return _p != it._p; }
         private:
             /** private konstruktor */
             iterator(T* p) : _p(p) {}  
@@ -65,7 +99,9 @@ public:
             /** prefix -- */
             reverse_iterator& operator--() { ++_p; return *this; }                         
             /** postfix -- */
-            reverse_iterator operator--(int) { reverse_iterator temp(*this); ++_p; return temp; }                     
+            reverse_iterator operator--(int) { reverse_iterator temp(*this); ++_p; return temp; }
+            /** nem egyenlő operator */
+            bool operator!=(const reverse_iterator &it) { return _p != it._p; }                        
         private:
             /** private konstruktor */
             reverse_iterator(T* p) : _p(p) {}  
@@ -148,33 +184,3 @@ public:
 
 // === MEGVALÓSÍTÁS VÉGE ===
 
-//Testing
-/*int main() {
-    my_priqueue<int> q0;
-    q0.push(76);
-    q0.push(1);
-    q0.push(2);
-    q0.push(27);
-    q0.push(7);
-    my_priqueue<int>::reverse_iterator it0;
-    it0 = q0.rbegin();    
-    while(*it0 != *q0.rend()){
-        cout << *it0 << " " << endl;
-        ++it0;
-    }
-     
-    my_priqueue<string, comparator<string>> q1;
-    q1.push("bbb");
-    q1.push("dddd");
-    q1.push("dd");
-    q1.push("aa");
-    q1.push("ccc");
-    my_priqueue<string, comparator<string>>::reverse_iterator it1;
-    it1 = q1.rend();
-      
-     while(*(--it1) != *q1.rbegin()){
-        cout << *it1 << " " << endl;
-    }
-   
-    return 0;
-}*/
