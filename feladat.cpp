@@ -13,7 +13,13 @@ public:
     /** Belsõ osztály, amely a hátrafeléhaladó iterátort valósítja meg. */
     class reverse_iterator;
     /** A sablonpéldány rendelkezik default konstruktorral. */
-    my_priqueue();
+    my_priqueue() : _queue(new T[0]), _size(0), _capacity(0) {
+
+	};
+    /** A destruktor felszabadítja a memóriaterületet. */
+    ~my_priqueue() { 
+		delete[] _queue; 
+	}
     /** Elem beszúrása a prioritási sorba a rendezésnek megfelelõ helyre. */
     void push(const T &item);
     /** A prioritási sor legelsõ elemének eltávolítása és visszaadása. */
@@ -34,6 +40,16 @@ public:
     reverse_iterator rbegin();
     /** Hátrafelé haladó iterátor a prisor elsõ elõtti elemére. */
     reverse_iterator rend();
+	private: 
+		/** elemek tárolása a prioritási sorban */
+		T *_queue;
+		/** a prioritási sorban lévő elemek száma */ 
+		int _size;
+		/** _data adattároló maximális kapacitása */
+		int _capacity;
+		/** Sablonpéldány a rendezésre */
+		Comparator _comparator;
+
 };
 
 // === MEGVALÓSÍTÁS VÉGE ===
@@ -43,18 +59,20 @@ struct comparator {
      * Függvényhívás operátor felüldefiniálása, amely rendezést valósít meg. 
      * Visszatérési értéke igaz, ha a < b valamilyen rendezési reláció szerint.
      */
-    bool operator()(const int &a, const int &b);
+    bool operator()(const int &a, const int &b){
+        return a<b;
+    };
 };
 
 int main() {
-    my_priqueue<int> q1;
-    q1.push(77);
+    my_priqueue<int, comparator> q1;
+    /*q1.push(77);
     q1.push(27);
     q1.push(7);
     
     my_priqueue<int, comparator> q2;
     q2.push(31);
-    q2.push(1977);
+    q2.push(1977);*/
 
     return 0;
 }
