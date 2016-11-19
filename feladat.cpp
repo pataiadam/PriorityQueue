@@ -6,14 +6,15 @@ using namespace std;
 /**
  * Comparator: típus, aminek példányai rendezést megvalósító függvényobjektumok
  */
-template<class T>
+template <class T>
 struct comparator {
     /** 
      * Függvényhívás operátor felüldefiniálása, amely rendezést valósít meg. 
      * Visszatérési értéke igaz, ha a < b valamilyen rendezési reláció szerint.
      */
-    bool operator()(const T &a, const T &b){
-        return a<b;
+    bool operator()(const T& a, const T& b)
+    {
+        return a < b;
     };
 };
 
@@ -24,82 +25,133 @@ struct comparator {
  *   - Comparator: típus, aminek példányai rendezést megvalósító 
  *                 függvényobjektumok
  */
-template<class T=int, class Comparator = comparator<int>>
+template <class T = int, class Comparator = comparator<int> >
 class my_priqueue {
 public:
     /** Belsõ osztály, amely az elõrehaladó iterátort valósítja meg. */
-    class iterator      
-    {
-        public:
-            /** default konstruktor */
-            iterator() : _p(0) {}
-			/** * operátor overloading/dereferencia */                             
-            T& operator*() { return *_p; }
-            /** prefix ++ */                                   
-            iterator& operator++() { ++_p; return *this; }                         
-            /** postfix ++ */
-            iterator operator++(int) { iterator temp(*this); ++_p; return temp; }
-            /** prefix -- */
-            iterator& operator--() { --_p; return *this; }                         
-            /** postfix -- */
-            iterator operator--(int) { iterator temp(*this); --_p; return temp; }                     
-            /** nem egyenlő operator */
-            bool operator!=(const iterator &it) { return _p != it._p; }
-            /** egyenlő operator */
-            bool operator==(const iterator &it) { return _p != it._p; }
-            /** -> operátor */
-            T * operator->() { return _p; }   
-        private:
-            /** private konstruktor */
-            iterator(T* p) : _p(p) {}  
-            /** az aktualisan mutatott elem */
-            T* _p;
+    class iterator {
+    public:
+        /** default konstruktor */
+        iterator()
+            : _p(0)
+        {
+        }
+        /** * operátor overloading/dereferencia */
+        T& operator*() { return *_p; }
+        /** prefix ++ */
+        iterator& operator++()
+        {
+            ++_p;
+            return *this;
+        }
+        /** postfix ++ */
+        iterator operator++(int)
+        {
+            iterator temp(*this);
+            ++_p;
+            return temp;
+        }
+        /** prefix -- */
+        iterator& operator--()
+        {
+            --_p;
+            return *this;
+        }
+        /** postfix -- */
+        iterator operator--(int)
+        {
+            iterator temp(*this);
+            --_p;
+            return temp;
+        }
+        /** nem egyenlő operator */
+        bool operator!=(const iterator& it) { return _p != it._p; }
+        /** egyenlő operator */
+        bool operator==(const iterator& it) { return _p != it._p; }
+        /** -> operátor */
+        T* operator->() { return _p; }
+    private:
+        /** private konstruktor */
+        iterator(T* p)
+            : _p(p)
+        {
+        }
+        /** az aktualisan mutatott elem */
+        T* _p;
         /** friend definició */
-		friend class my_priqueue<T,Comparator>; 
+        friend class my_priqueue<T, Comparator>;
     };
     /** Belsõ osztály, amely a hátrafeléhaladó iterátort valósítja meg. */
-    class reverse_iterator      
-    {
-        public:
-            /** default konstruktor */
-            reverse_iterator() : _p(0) {}
-			/** * operátor overloading/dereferencia */                             
-            T& operator*() { return *_p; }
-            /** prefix ++ */                                   
-            reverse_iterator& operator++() { --_p; return *this; }                         
-            /** postfix ++ */
-            reverse_iterator operator++(int) { reverse_iterator temp(*this); --_p; return temp; }
-            /** prefix -- */
-            reverse_iterator& operator--() { ++_p; return *this; }                         
-            /** postfix -- */
-            reverse_iterator operator--(int) { reverse_iterator temp(*this); ++_p; return temp; }
-            /** nem egyenlő operator */
-            bool operator!=(const reverse_iterator &it) { return _p != it._p; }     
-            /** egyenlő operator */
-            bool operator==(const reverse_iterator &it) { return _p != it._p; }  
-            /** -> operátor */
-            T * operator->() { return _p; }
-        private:
-            /** private konstruktor */
-            reverse_iterator(T* p) : _p(p) {}  
-            /** az aktualisan mutatott elem */
-            T* _p;
+    class reverse_iterator {
+    public:
+        /** default konstruktor */
+        reverse_iterator()
+            : _p(0)
+        {
+        }
+        /** * operátor overloading/dereferencia */
+        T& operator*() { return *_p; }
+        /** prefix ++ */
+        reverse_iterator& operator++()
+        {
+            --_p;
+            return *this;
+        }
+        /** postfix ++ */
+        reverse_iterator operator++(int)
+        {
+            reverse_iterator temp(*this);
+            --_p;
+            return temp;
+        }
+        /** prefix -- */
+        reverse_iterator& operator--()
+        {
+            ++_p;
+            return *this;
+        }
+        /** postfix -- */
+        reverse_iterator operator--(int)
+        {
+            reverse_iterator temp(*this);
+            ++_p;
+            return temp;
+        }
+        /** nem egyenlő operator */
+        bool operator!=(const reverse_iterator& it) { return _p != it._p; }
+        /** egyenlő operator */
+        bool operator==(const reverse_iterator& it) { return _p != it._p; }
+        /** -> operátor */
+        T* operator->() { return _p; }
+    private:
+        /** private konstruktor */
+        reverse_iterator(T* p)
+            : _p(p)
+        {
+        }
+        /** az aktualisan mutatott elem */
+        T* _p;
         /** friend definició */
-		friend class my_priqueue<T,Comparator>; 
+        friend class my_priqueue<T, Comparator>;
     };
     /** A sablonpéldány rendelkezik default konstruktorral. */
-    my_priqueue() : _queue(new T[0]), _size(0), _capacity(0) {
+    my_priqueue()
+        : _queue(new T[0])
+        , _size(0)
+        , _capacity(0){
 
-	};
+        };
     /** A destruktor felszabadítja a memóriaterületet. */
-    ~my_priqueue() { 
-		delete[] _queue; 
-	}
+    ~my_priqueue()
+    {
+        delete[] _queue;
+    }
     /** Elem beszúrása a prioritási sorba a rendezésnek megfelelõ helyre. */
-    void push(const T &item) {     
-        if ( _capacity == _size) {
-            int tmpcap = _capacity * 2 + 1;                        
-            T *tmpqueue = new T[tmpcap];             
+    void push(const T& item)
+    {
+        if (_capacity == _size) {
+            int tmpcap = _capacity * 2 + 1;
+            T* tmpqueue = new T[tmpcap];
             for (int i = 0; i < _capacity; i++) {
                 tmpqueue[i] = _queue[i];
             }
@@ -109,24 +161,23 @@ public:
         }
         _queue[_size] = item;
         _size++;
-        
+
         //sort
-        for (int j = _size-2; 0<=j; j--)
-        {
-            if (_comparator(_queue[j+1],_queue[j]))
-            {
+        for (int j = _size - 2; 0 <= j; j--) {
+            if (_comparator(_queue[j + 1], _queue[j])) {
                 T temp;
                 temp = _queue[j];
-                _queue[j] = _queue[j+1];
-                _queue[j+1] = temp;
+                _queue[j] = _queue[j + 1];
+                _queue[j + 1] = temp;
             }
         }
     }
     /** A prioritási sor legelsõ elemének eltávolítása és visszaadása. */
-    T pop() {
+    T pop()
+    {
         T ret = _queue[0];
-        for (int i = 1; i<_size; i++){
-            _queue[i-1] = _queue[i];
+        for (int i = 1; i < _size; i++) {
+            _queue[i - 1] = _queue[i];
         }
         _size--;
         return ret;
@@ -146,17 +197,16 @@ public:
     /** Hátrafelé haladó iterátor a prisor utolsó elemére. */
     reverse_iterator rbegin() { return reverse_iterator(_queue + _size - 1); }
     /** Hátrafelé haladó iterátor a prisor elsõ elõtti elemére. */
-    reverse_iterator rend() { return reverse_iterator(_queue - 1 ); }
-	private: 
-		/** elemek tárolása a prioritási sorban */
-		T *_queue;
-		/** a prioritási sorban lévő elemek száma */ 
-		int _size;
-		/** _queue adattároló maximális kapacitása */
-		int _capacity;
-		/** Sablonpéldány a rendezésre */
-		Comparator _comparator;
-
+    reverse_iterator rend() { return reverse_iterator(_queue - 1); }
+private:
+    /** elemek tárolása a prioritási sorban */
+    T* _queue;
+    /** a prioritási sorban lévő elemek száma */
+    int _size;
+    /** _queue adattároló maximális kapacitása */
+    int _capacity;
+    /** Sablonpéldány a rendezésre */
+    Comparator _comparator;
 };
 
 // === MEGVALÓSÍTÁS VÉGE ===
